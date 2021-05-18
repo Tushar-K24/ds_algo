@@ -11,7 +11,7 @@ using namespace std;
 
 class Solution{
     public:
-    bool check_cycle(vec<vec<int>> &graph, int n){
+    void topological_sort(vec<vec<int>> &graph, vec<int> &sorted, int n){
         vec<int> indegree(n,0);
         queue<int> q;
         for(int i=0;i<n;i++){
@@ -28,7 +28,7 @@ class Solution{
         while(!q.empty()){
             int top=q.front();
             q.pop();
-            count++;
+            sorted.pb(top);          
             for(int i:graph[top]){
                 indegree[i]--;
                 if(indegree[i]==0){
@@ -36,8 +36,6 @@ class Solution{
                 }
             }
         }
-        if(count==n) return false;
-        return true;
     }
 }Solution;
 
@@ -52,9 +50,10 @@ int32_t main(){
         cin>>u>>v;
         graph[u].pb(v);
     }    
-    if(Solution.check_cycle(graph,n))
-        cout<<"YES"<<endl;
-    else
-        cout<<"NO"<<endl;
+    vec<int> sorted;
+    Solution.topological_sort(graph,sorted,n);
+    for(int i:sorted)
+        cout<<sorted[i]<<" ";
+    cout<<endl;
     return 0;
 }
